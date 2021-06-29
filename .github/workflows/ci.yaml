@@ -16,14 +16,14 @@ jobs:
         team: CxServer\AppSec\Hyland\DevSec\Misc\RPA
         cxAction: Scan
         cxServer: https://srv-cxsuite.onbase.net/
-        cxUsername: ${{ CXEMAIL }}
-        cxPassword: ${{ CXPASSWORD }}
+        cxUsername: ${{ secrets.CXEMAIL }}
+        cxPassword: ${{ secrets.CXPASSWORD }}
         cxLog: log.log
         cxReportPDF: reports/ScanResults.pdf
-        cxGithubToken: ${{ GITHUBTOKEN }}
+        cxGithubToken: ${{ secrets.GITHUBTOKEN }}
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
         name: log.log
         path: log.log
-        
+
