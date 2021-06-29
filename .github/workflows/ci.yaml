@@ -1,0 +1,28 @@
+name: Checkmarx Scan
+on:
+  push:
+    branches: 
+       develop
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Checkmarx Action
+      uses: checkmarx-ts/checkmarx-cxflow-github-action@v1.1
+      with:
+        project: HylandRPA.Api.Heart # <-- Insert Checkmarx SAST Project Name
+        team: CxServer\AppSec\Hyland\DevSec\Misc\RPA
+        cxAction: Scan
+        cxServer: https://srv-cxsuite.onbase.net/
+        cxUsername: ${{ CXEMAIL }}
+        cxPassword: ${{ CXPASSWORD }}
+        cxLog: log.log
+        cxReportPDF: reports/ScanResults.pdf
+        cxGithubToken: ${{ GITHUBTOKEN }}
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: log.log
+        path: log.log
