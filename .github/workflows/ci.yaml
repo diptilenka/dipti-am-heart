@@ -15,12 +15,12 @@ jobs:
         project: HylandRPA.Api.Heart # <-- Insert Checkmarx SAST Project Name
         team: CxServer\AppSec\Hyland\DevSec\Misc\RPA
         cxAction: Scan
-        cxServer: https://srv-cxsuite.onbase.net/
-        cxUsername: ${{ secrets.CXEMAIL }}
-        cxPassword: ${{ secrets.CXPASSWORD }}
+        checkmarx_url: https://srv-cxsuite.onbase.net/
+        checkmarx_username: ${{ secrets.CXEMAIL }}
+        checkmarx_password: ${{ secrets.CXPASSWORD }}
         cxLog: log.log
         cxReportPDF: reports/ScanResults.pdf
-        cxGithubToken: ${{ secrets.GITHUBTOKEN }}
+        github_token: ${{ secrets.GITHUBTOKEN }}
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
