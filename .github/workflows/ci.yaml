@@ -10,7 +10,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
     - name: Checkmarx Action
-      uses: checkmarx-ts/checkmarx-cxflow-github-action@v1.1
+      uses: checkmarx-ts/checkmarx-github-action@v1.0.6
       with:
         project: HylandRPA.Api.Heart # <-- Insert Checkmarx SAST Project Name
         team: CxServer\AppSec\Hyland\DevSec\Misc\RPA
