@@ -1,4 +1,4 @@
-name: Checkmarx Scan
+name: PR-Susovan-Checkmarx Scan
 on:
   push:
     branches: 
