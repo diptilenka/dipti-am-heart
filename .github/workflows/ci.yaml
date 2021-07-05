@@ -2,7 +2,7 @@ name: Checkmarx Scan
 on:
   push:
     branches: 
-       checkmarx-scan
+       PR-susovan-checkmarx
 jobs:
   build:
     runs-on: [self-hosted, Linux, X64]
@@ -50,4 +50,3 @@ jobs:
       with:
         name: log.log
         path: log.log
-        
