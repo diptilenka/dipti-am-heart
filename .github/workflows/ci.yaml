@@ -14,7 +14,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: HylandSoftware/checkmarx-cxflow-github-action
-        token: ${{ secrets.MODULE-TOKEN }}
+        token: ${{ secrets.MODULE_TOKEN }}
         path: ./.github/actions/checkmarx-cxflow-github-action
         ref: main
     # - name: Checkmarx Action
