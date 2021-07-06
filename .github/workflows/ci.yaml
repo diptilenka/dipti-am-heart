@@ -31,14 +31,14 @@ jobs:
         checkmarx_username: ${{ secrets.CXEMAIL }}
         checkmarx_password: ${{ secrets.CXPASSWORD }}
         checkmarx_client_secret: ${{ secrets.CXSECRET_KEY }}
-        # github_token: ${{ secrets.GITHUBTOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         break_build: false
         scanners: sast
         preset: OB_All
         incremental: true
-    - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: log.log
-        path: log.log
+    # - name: Upload artifact
+    #   uses: actions/upload-artifact@v1.0.0
+    #   with:
+    #     name: log.log
+    #     path: log.log
 
