@@ -2,7 +2,7 @@ name: Checkmarx Scan
 on:
   push:
     branches: 
-       checkmarx
+       checkmarx-scan
 jobs:
   build:
     runs-on: [self-hosted, Linux, X64]
@@ -35,5 +35,5 @@ jobs:
         scanners: sast
         preset: OB_All
         incremental: true
-        
+
 
