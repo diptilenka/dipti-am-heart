@@ -2,26 +2,37 @@ name: Checkmarx Scan
 on:
   push:
     branches: 
-       checkmarx-scan
+       checkmarx
 jobs:
   build:
     runs-on: [self-hosted, Linux, X64]
     steps:
-    - name: Checkmarx Action
-      uses: checkmarx-ts/checkmarx-cxflow-github-action@v1.1
+    - name: Checkout
+      uses: actions/checkout@v1
+   # Use private checkmarx-cxflow-github-action with hyland certs installed
+    - name: Checkout checkmarx-cxflow-github-action
+      uses: actions/checkout@v2
       with:
-        project: HylandRPA.Api.Heart # <-- Insert Checkmarx SAST Project Name
-        team: CxServer\AppSec\Hyland\DevSec\Misc\RPA
+        repository: HylandSoftware/checkmarx-cxflow-github-action
+        token: ${{ secrets.MODULE_TOKEN }}
+        path: ./.github/actions/checkmarx-cxflow-github-action
+        ref: main
+     # Run scan
+    - name: Run CxSAST
+      uses: ./.github/actions/checkmarx-cxflow-github-action
+      env:
+        EXCLUDE_FOLDERS: '.github,template,tests'
+        REPO_URL: https://github.com/${{ github.repository }}
+      with:
+        project: Dipti-AM-Heart # <-- Insert Checkmarx SAST Project Name
+        team: CxServer/AppSec/Hyland/DevSec/Misc/RPA
         checkmarx_url: https://srv-cxsuite.onbase.net
-        #checkmarx_signinmethod: onbase
         checkmarx_username: ${{ secrets.CXEMAIL }}
         checkmarx_password: ${{ secrets.CXPASSWORD }}
-        github_token: ${{ secrets.GITHUBTOKEN }}
+        checkmarx_client_secret: ${{ secrets.CXSECRET_KEY }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        break_build: false
+        scanners: sast
         preset: OB_All
         incremental: true
-    - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: log.log
-        path: log.log
-        
+
