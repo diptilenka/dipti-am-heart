@@ -24,14 +24,14 @@ jobs:
         EXCLUDE_FOLDERS: '.github,template,tests'
         REPO_URL: https://github.com/${{ github.repository }}
       with:
-        project: HylandRPA.Api.Heart # <-- Insert Checkmarx SAST Project Name
+        project: Dipti-AM-Heart # <-- Insert Checkmarx SAST Project Name
         team: CxServer/AppSec/Hyland/DevSec/Misc/RPA
         checkmarx_url: https://srv-cxsuite.onbase.net
         #checkmarx_signinmethod: onbase
         checkmarx_username: ${{ secrets.CXEMAIL }}
         checkmarx_password: ${{ secrets.CXPASSWORD }}
         checkmarx_client_secret: ${{ secrets.CXSECRET_KEY }}
-        github_token: ${{ secrets.GITHUBTOKEN }}
+        # github_token: ${{ secrets.GITHUBTOKEN }}
         break_build: false
         scanners: sast
         preset: OB_All
