@@ -35,7 +35,7 @@ jobs:
         REPO_URL: https://github.com/${{ github.repository }}
       with:
         project: HylandRPA.Api.Heart # <-- Insert Checkmarx SAST Project Name
-        team: CxServer\AppSec\Hyland\DevSec\Misc\RPA
+        team: CxServer/AppSec/Hyland/DevSec/Misc/RPA
         checkmarx_url: https://srv-cxsuite.onbase.net
         #checkmarx_signinmethod: onbase
         checkmarx_username: ${{ secrets.CXEMAIL }}
