@@ -17,16 +17,6 @@ jobs:
         token: ${{ secrets.MODULE_TOKEN }}
         path: ./.github/actions/checkmarx-cxflow-github-action
         ref: main
-    # - name: Checkmarx Action
-    #   uses: checkmarx-ts/checkmarx-cxflow-github-action@v1.1
-    #   with:
-    #     project: HylandRPA.Api.Heart # <-- Insert Checkmarx SAST Project Name
-    #     team: CxServer\AppSec\Hyland\DevSec\Misc\RPA
-    #     checkmarx_url: https://srv-cxsuite.onbase.net
-    #     #checkmarx_signinmethod: onbase
-    #     checkmarx_username: ${{ secrets.CXEMAIL }}
-    #     checkmarx_password: ${{ secrets.CXPASSWORD }}
-    #     github_token: ${{ secrets.GITHUBTOKEN }}
      # Run scan
     - name: Run CxSAST
       uses: ./.github/actions/checkmarx-cxflow-github-action
