@@ -2,7 +2,7 @@ name: Checkmarx Scan
 on:
   push:
     branches: 
-       development
+        main
 jobs:
   Build:
     runs-on: [self-hosted, Linux, X64]
