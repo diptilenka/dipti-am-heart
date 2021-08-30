@@ -24,10 +24,10 @@ jobs:
   DeployToDevelopment:
     name: Deploy to Development
     if: github.event_name == 'push'
+    needs: [ Build ]
     runs-on: [self-hosted, Linux, X64]
-    needs: [ Build ] 
-#     environment:
-#      name: Development
+    environment:
+     name: Development
     steps:  
     - name: Run CxSAST
       uses: ./.github/actions/checkmarx-cxflow-github-action
@@ -49,8 +49,8 @@ jobs:
   DeployToStaging:
     name: Deploy to Staging
     if: github.event.ref == 'ref/head/main'
-    runs-on: [self-hosted, Linux, X64]
     needs: [ Build ] 
+    runs-on: [self-hosted, Linux, X64]
     environment:
      name: Staging
     steps:  
@@ -73,9 +73,8 @@ jobs:
         incremental: true
   Production:
     name: Deploy to Production
-    if: github.event_name == 'pull-request'
-    runs-on: [self-hosted, Linux, X64]
-    needs: [ DeployToStaging ] 
+    needs: [ DeployToStaging ]
+    runs-on: [self-hosted, Linux, X64] 
     environment:
      name: Production
     steps:  
