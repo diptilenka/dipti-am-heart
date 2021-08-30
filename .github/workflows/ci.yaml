@@ -23,7 +23,7 @@ jobs:
         ref: main
   DeployToDevelopment:
     name: Deploy to Development
-    if: github.event_name == 'pull-request'
+    if: github.event_name == 'push'
     runs-on: [self-hosted, Linux, X64]
     needs: [Build] 
     environment:
