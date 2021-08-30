@@ -2,27 +2,95 @@ name: Checkmarx Scan
 on:
   push:
     branches: 
-       main
+        main
 jobs:
-  build:
-    runs-on: [self-hosted,Windows,X64]
+  Build:
+    runs-on: [self-hosted, Linux, X64]
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
-    - name: Checkmarx Action
-      uses: checkmarx-ts/checkmarx-cxflow-github-action@v1.1
+      uses: actions/checkout@v2
+   # Use private checkmarx-cxflow-github-action with hyland certs installed
+    - name: Checkout checkmarx-cxflow-github-action
+      uses: actions/checkout@v2
       with:
-        project: HylandRPA.Api.Heart # <-- Insert Checkmarx SAST Project Name
-        team: CxServer\AppSec\Hyland\DevSec\Misc\RPA
-        cxAction: Scan
-        cxServer: https://srv-cxsuite.onbase.net/
-        cxUsername: ${{ CXEMAIL }}
-        cxPassword: ${{ CXPASSWORD }}
-        cxLog: log.log
-        cxReportPDF: reports/ScanResults.pdf
-        cxGithubToken: ${{ GITHUBTOKEN }}
-    - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
+        repository: HylandSoftware/checkmarx-cxflow-github-action
+        token: ${{ secrets.MODULE_TOKEN }}
+        path: ./.github/actions/checkmarx-cxflow-github-action
+        ref: main
+  DeployToDevelopment:
+    name: Deploy to Development
+    if: github.event_name == 'pull-request'
+    runs-on: [self-hosted, Linux, X64]
+    needs: [Build] 
+    environment:
+     name: Development
+    steps:  
+    - name: Run CxSAST
+      uses: ./.github/actions/checkmarx-cxflow-github-action
+      env:
+        EXCLUDE_FOLDERS: '.github,template,tests'
+        REPO_URL: https://github.com/${{ github.repository }}
       with:
-        name: log.log
-        path: log.log
+        project: Dipti-AM-Heart # <-- Insert Checkmarx SAST Project Name
+        team: CxServer/AppSec/Hyland/DevSec/Misc/RPA
+        checkmarx_url: https://srv-cxsuite.onbase.net
+        checkmarx_username: ${{ secrets.CXEMAIL }}
+        checkmarx_password: ${{ secrets.CXPASSWORD }}
+        checkmarx_client_secret: ${{ secrets.CXSECRET_KEY }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        break_build: false
+        scanners: sast
+        preset: OB_All
+        incremental: true
+  DeployToStaging:
+    name: Deploy to Staging
+    if: github.event.ref == 'ref/head/main'
+    runs-on: [self-hosted, Linux, X64]
+    needs: [Build] 
+    environment:
+     name: Staging
+    steps:  
+    - name: Run CxSAST
+      uses: ./.github/actions/checkmarx-cxflow-github-action
+      env:
+        EXCLUDE_FOLDERS: '.github,template,tests'
+        REPO_URL: https://github.com/${{ github.repository }}
+      with:
+        project: Dipti-AM-Heart # <-- Insert Checkmarx SAST Project Name
+        team: CxServer/AppSec/Hyland/DevSec/Misc/RPA
+        checkmarx_url: https://srv-cxsuite.onbase.net
+        checkmarx_username: ${{ secrets.CXEMAIL }}
+        checkmarx_password: ${{ secrets.CXPASSWORD }}
+        checkmarx_client_secret: ${{ secrets.CXSECRET_KEY }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        break_build: false
+        scanners: sast
+        preset: OB_All
+        incremental: true
+  Production:
+    name: Deploy to Production
+    if: github.event_name == 'pull-request'
+    runs-on: [self-hosted, Linux, X64]
+    needs: [DeployToStaging] 
+    environment:
+     name: Production
+    steps:  
+    - name: Run CxSAST
+      uses: ./.github/actions/checkmarx-cxflow-github-action
+      env:
+        EXCLUDE_FOLDERS: '.github,template,tests'
+        REPO_URL: https://github.com/${{ github.repository }}
+      with:
+        project: Dipti-AM-Heart # <-- Insert Checkmarx SAST Project Name
+        team: CxServer/AppSec/Hyland/DevSec/Misc/RPA
+        checkmarx_url: https://srv-cxsuite.onbase.net
+        checkmarx_username: ${{ secrets.CXEMAIL }}
+        checkmarx_password: ${{ secrets.CXPASSWORD }}
+        checkmarx_client_secret: ${{ secrets.CXSECRET_KEY }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        break_build: false
+        scanners: sast
+        preset: OB_All
+        incremental: true
+   
+
