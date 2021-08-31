@@ -26,8 +26,8 @@ jobs:
     if: github.event_name == 'push'
     needs: [ Build ]
     runs-on: [self-hosted, Linux, X64]
-    environment:
-     name: Development
+#     environment:
+#      name: Development
     steps:  
     - name: Run CxSAST
       uses: ./.github/actions/checkmarx-cxflow-github-action
